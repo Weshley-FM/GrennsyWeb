@@ -120,7 +120,7 @@
                     <img src="https://via.placeholder.com/100" class="rounded-circle mb-3" alt="Profile">
                     <h5 class="card-title">Guest User</h5>
                     <p class="card-text">Log in to manage your orders and save favorite items.</p>
-                    <a href="#" class="btn btn-success">Login</a>
+                    <a href="/login" class="btn btn-success">Login</a>
                 </div>
             </div>
         </div>
