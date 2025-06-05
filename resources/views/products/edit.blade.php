@@ -38,6 +38,15 @@
             background-color: #218838;
         }
 
+        .btn-secondary {
+            background-color: #6c757d;
+            margin-left: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
         .form-container {
             max-width: 600px;
             margin: 0 auto;
@@ -54,7 +63,7 @@
             display: block;
         }
 
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], input[type="file"] {
             width: 100%;
             padding: 10px;
             font-size: 14px;
@@ -63,7 +72,7 @@
             border-radius: 5px;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
+        input[type="text"]:focus, input[type="number"]:focus, input[type="file"]:focus {
             border-color: #28a745;
             outline: none;
         }
@@ -80,6 +89,21 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
+
+        .image-preview {
+            margin-bottom: 15px;
+        }
+
+        .image-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +112,7 @@
         <h1>Edit Data Sayur</h1>
 
         <div class="form-container">
-            <form action="{{ route('products.update', $product->id) }}" method="POST">
+            <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -107,10 +131,24 @@
                     <input type="number" name="stock" id="stock" value="{{ $product->stock }}" required>
                 </div>
 
-                <button type="submit" class="btn">Update Data</button>
+                <div class="form-group">
+                    <label for="photo">Edit Foto</label>
+                    <input type="file" name="photo" id="photo">
+                    @if ($product->photo)
+                        <div class="image-preview">
+                            <img src="{{ asset('storage/photos/' . $product->photo) }}" alt="Current Photo">
+                        </div>
+                    @endif
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn">Update Data</button>
+                    <a href="{{ route('products.index') }}" class="btn btn-secondary">Back</a>
+                </div>
             </form>
         </div>
     </div>
 
 </body>
 </html>
+
