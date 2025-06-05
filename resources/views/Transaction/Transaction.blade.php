@@ -2,133 +2,160 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Transaction Page</title>
+    <title>Greensy Market | Your Cart</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f3fdf4;
-            color: #2e7d32;
-            margin: 0;
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-
-        h2 {
-            color: #2e7d32;
+        main {
+            flex: 1;
+            background-color: #f0fff0;
+            padding: 60px 0;
         }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        .table thead {
+            background-color: #d4edda;
         }
-
-        th, td {
-            border: 1px solid #a5d6a7;
-            padding: 8px;
-            text-align: center;
+        .table tbody tr:hover {
+            background-color: #f6fdf6;
         }
-
-        th {
-            background-color: #81c784;
-            color: white;
+        .btn-outline-success:hover {
+            background-color: #198754;
+            color: #fff;
         }
-
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 6px;
-            border: 1px solid #c8e6c9;
-            border-radius: 4px;
+        .btn-outline-danger:hover {
+            background-color: #dc3545;
+            color: #fff;
         }
-
-        button {
-            background-color: #4caf50;
-            color: white;
-            padding: 10px 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        button:hover {
-            background-color: #388e3c;
+        footer {
+            background-color: #343a40;
+            color: #fff;
         }
     </style>
 </head>
 <body>
 
-    <h2>🧾 Add Items (Vegetables & More)</h2>
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-success" href="#">Greensy</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav me-4">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#shop">Shop</a></li>
+                <li class="nav-item"><a class="nav-link" href="#profile">Profile</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
-    <form method="POST" action="{{ route('transactions.store') }}">
-        @csrf
+<main>
+    <div class="container">
+        <h2 class="text-success mb-4 text-center">Your Cart</h2>
 
-        <table id="items-table">
-            <thead>
-                <tr>
-                    <th>Item Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody id="items-body">
-                <tr>
-                    <td><input type="text" name="items[0][name]" required></td>
-                    <td><input type="number" name="items[0][quantity]" min="1" value="1" required onchange="updateTotal(this)"></td>
-                    <td><input type="number" name="items[0][price]" step="0.01" value="0.00" required onchange="updateTotal(this)"></td>
-                    <td class="item-total">0.00</td>
-                </tr>
-            </tbody>
-        </table>
+        @if($cartItems->count())
+            <form method="POST" action="{{ route('transactions.update') }}">
+                @csrf
+                <div class="table-responsive">
+                    <table class="table table-bordered bg-white shadow-sm align-middle">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th style="width: 120px;">Quantity</th>
+                                <th>Total</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cartTable">
+                            @foreach($cartItems as $item)
+                                <tr data-id="{{ $item->id }}">
+                                    <td>{{ $item->product->name }}</td>
+                                    <td>Rp{{ number_format($item->product->price, 0, ',', '.') }}</td>
+                                    <td>
+                                        <input type="number" name="quantities[{{ $item->id }}]" value="{{ $item->quantity }}" min="1"
+                                               class="form-control quantity-input">
+                                    </td>
+                                    <td class="item-total fw-bold text-success">
+                                        Rp{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('cart.remove', $item->id) }}" class="btn btn-sm btn-outline-danger">Remove</a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot class="table-light">
+                            <tr>
+                                <td colspan="3" class="text-end fw-bold">Grand Total:</td>
+                                <td id="grandTotal" class="fw-bold text-success">Rp0</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
 
-        <button type="button" onclick="addItem()">+ Add Another Item</button>
-        <br>
-        <h3>Total: <span id="grand-total">0.00</span></h3>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success">Update Cart</button>
+                    <a href="{{ route('checkout') }}" class="btn btn-outline-success ms-2">Proceed to Checkout</a>
+                </div>
+            </form>
+        @else
+            <p class="text-center text-muted">Your cart is currently empty.</p>
+        @endif
+    </div>
+</main>
 
-        <button type="submit">Submit Transaction</button>
-    </form>
+<!-- FOOTER -->
+<footer class="text-center py-3 mt-auto">
+    <div class="container">
+        <p class="mb-0">&copy; {{ date('Y') }} Greensy Market. All rights reserved.</p>
+        <small>Email: greensy@example.com | WhatsApp: 0812-3456-7890</small>
+    </div>
+</footer>
 
-    <script>
-        let index = 1;
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function formatRupiah(number) {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(number);
+    }
 
-        function addItem() {
-            const body = document.getElementById('items-body');
-            const row = document.createElement('tr');
+    function updateTotals() {
+        let grandTotal = 0;
 
-            row.innerHTML = `
-                <td><input type="text" name="items[${index}][name]" required></td>
-                <td><input type="number" name="items[${index}][quantity]" min="1" value="1" required onchange="updateTotal(this)"></td>
-                <td><input type="number" name="items[${index}][price]" step="0.01" value="0.00" required onchange="updateTotal(this)"></td>
-                <td class="item-total">0.00</td>
-            `;
+        document.querySelectorAll('#cartTable tr').forEach(row => {
+            const priceText = row.children[1].textContent.replace(/[^\d]/g, '');
+            const price = parseInt(priceText);
+            const qty = parseInt(row.querySelector('.quantity-input').value) || 1;
+            const itemTotal = price * qty;
 
-            body.appendChild(row);
-            index++;
-        }
-
-        function updateTotal(el) {
-            const row = el.closest('tr');
-            const qty = row.querySelector('input[name*="[quantity]"]').value;
-            const price = row.querySelector('input[name*="[price]"]').value;
-            const total = (qty * price).toFixed(2);
-            row.querySelector('.item-total').textContent = total;
-
-            updateGrandTotal();
-        }
-
-        function updateGrandTotal() {
-            let total = 0;
-            document.querySelectorAll('.item-total').forEach(td => {
-                total += parseFloat(td.textContent);
-            });
-            document.getElementById('grand-total').textContent = total.toFixed(2);
-        }
-
-        document.querySelectorAll('input[type="number"]').forEach(input => {
-            input.addEventListener('input', updateTotal);
+            row.querySelector('.item-total').textContent = formatRupiah(itemTotal);
+            grandTotal += itemTotal;
         });
-    </script>
+
+        document.getElementById('grandTotal').textContent = formatRupiah(grandTotal);
+    }
+
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        input.addEventListener('input', updateTotals);
+    });
+
+    window.addEventListener('DOMContentLoaded', updateTotals);
+</script>
 
 </body>
 </html>
