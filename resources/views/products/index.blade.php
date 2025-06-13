@@ -142,6 +142,12 @@
             width: 28px;
             height: 28px;
         }
+
+        footer {
+            background-color: #ffff;
+            color: #343a40;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -210,5 +216,12 @@
             <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
         </svg>
     </a>
+
+    <!-- FOOTER -->
+    <footer class="text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; {{ date('Y') }} Greensy Market. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>

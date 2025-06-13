@@ -104,6 +104,12 @@
             display: flex;
             justify-content: space-between;
         }
+
+        footer {
+            background-color: #ffff;
+            color: #343a40;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -148,7 +154,12 @@
             </form>
         </div>
     </div>
-
+    <!-- FOOTER -->
+    <footer class="text-center py-3 mt-auto">
+        <div class="container">
+            <p class="mb-0">&copy; {{ date('Y') }} Greensy Market. All rights reserved.</p>
+        </div>
+    </footer>
 </body>
 </html>
 
