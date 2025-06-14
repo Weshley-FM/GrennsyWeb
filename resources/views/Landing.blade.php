@@ -467,13 +467,14 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#profile">Profile</a></li>
             </ul>
+        <div class="user-actions">
+            <div class="search-box">
+                <input type="text" placeholder="Search...">
+                <button type="submit">🔍</button>
+            </div>
             <div class="user-actions">
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button type="submit">🔍</button>
-                </div>
-                <button class="login-btn">👤 Login</button>
-                <button class="cart-btn">🛒 <span class="cart-count">0</span></button>
+                <a href="{{ route('login') }}" class="login-btn">👤 Login</a>
+                <a href="{{ route('login') }}" class="cart-btn">🛒 <span class="cart-count">0</span></a>
             </div>
         </div>
     </header>

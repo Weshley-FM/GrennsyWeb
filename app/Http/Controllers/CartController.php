@@ -10,10 +10,11 @@ class CartController extends Controller
 {
     public function index()
     {
-        // Assuming user cart is stored in session or database
+        // Asumsi data cartItems diambil dari database
         $cartItems = CartItem::with('product')->where('user_id', auth()->id())->get();
 
-        return view('transaction', compact('cartItems'));
+        // Mengarahkan ke resources/views/transaction/cart.blade.php
+        return view('transaction.cart', compact('cartItems')); // <--- UBAH INI!
     }
 
     public function update(Request $request)
