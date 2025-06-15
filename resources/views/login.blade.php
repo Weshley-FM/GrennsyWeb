@@ -416,7 +416,7 @@
                 @enderror
             </div>
 
-            <div class="remember-forgot">
+            <!-- <div class="remember-forgot">
                 <label class="remember-me">
                     {{-- name="remember" untuk fungsi "ingat saya" Laravel --}}
                     <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
@@ -428,7 +428,7 @@
                 @else
                     <a href="#" class="forgot-password">Lupa password?</a> {{-- Fallback jika rute tidak ada --}}
                 @endif
-            </div>
+            </div> -->
 
             <button type="submit" class="login-btn">Masuk</button>
         </form>

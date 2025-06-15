@@ -552,7 +552,7 @@
             <div class="footer-column">
                 <h3>Store</h3>
                 <ul class="footer-links">
-                    <li><a href="#">Shop all</a></li>
+                    <li><a href="#shop">Shop all</a></li>
                     <li><a href="#">Shipping & Returns</a></li>
                     <li><a href="#">Share Picky</a></li>
                     <li><a href="#">FAQ</a></li>
@@ -581,12 +581,6 @@
         
         <div class="copyright">
             <p>© 2025 by Greensy. Powered and secured by Laravel</p>
-            <div class="social-links">
-                <a href="#">✕</a>
-                <a href="#">📷</a>
-                <a href="#">📧</a>
-                <a href="#">▶️</a>
-            </div>
         </div>
     </footer>
 

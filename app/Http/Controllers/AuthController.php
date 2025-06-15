@@ -8,32 +8,45 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    // Tampilkan halaman login (kamu bisa pake view blade nanti)
+    // Tampilkan halaman login
     public function showLogin()
     {
-        return view('login'); // nanti file resources/views/auth/login.blade.php
+        // Jika sudah login, redirect berdasarkan role
+        if (Auth::check()) {
+            return $this->redirectBasedOnRole();
+        }
+        
+        return view('login'); // Sesuai dengan file login.blade.php Anda
     }
 
     // Proses login
     public function login(Request $request)
     {
-        // Validasi input
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required', 'min:6'],
+        // Validasi input - Ubah validasi email menjadi lebih fleksibel
+        $request->validate([
+            'email' => ['required', 'string'], // Bisa email atau nama
+            'password' => ['required', 'string'],
         ]);
 
+        // Cek apakah input adalah email atau nama
+        $loginType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        
+        $credentials = [
+            $loginType => $request->email,
+            'password' => $request->password,
+        ];
+
         // Coba login pakai Auth
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            // Redirect ke dashboard misalnya
-            return redirect()->intended('/dashboard');
+            // Redirect berdasarkan role user
+            return $this->redirectBasedOnRole();
         }
 
         // Kalau gagal login
         throw ValidationException::withMessages([
-            'email' => __('auth.failed'), // Pesan error "These credentials do not match our records."
+            'email' => 'Email/nama atau password yang Anda masukkan salah.',
         ]);
     }
 
@@ -45,6 +58,21 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Berhasil logout!');
+    }
+
+    // Method untuk redirect berdasarkan role
+    private function redirectBasedOnRole()
+    {
+        $user = Auth::user();
+        
+        // Cek role user
+        if ($user->role === 'admin') {
+            // Admin masuk ke halaman user management
+            return redirect()->route('users.index')->with('success', 'Selamat datang, Admin!');
+        } else {
+            // User biasa masuk ke dashboard
+            return redirect()->route('dashboard')->with('success', 'Selamat datang!');
+        }
     }
 }

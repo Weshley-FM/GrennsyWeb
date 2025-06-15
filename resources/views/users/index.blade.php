@@ -152,6 +152,13 @@
             width: 28px;
             height: 28px;
         }
+
+        /* Footer */
+        footer {
+            background-color: #1d4731;
+            color: #fff;
+            padding: 10px 30px 10px;
+        }
     </style>
 </head>
 <body>
@@ -238,5 +245,11 @@
             />
         </svg>
     </a>
+
+    <footer>
+        <div class="copyright">
+            <p>© 2025 by Greensy. Powered and secured by Laravel</p>
+        </div>
+    </footer>
 </body>
 </html>
