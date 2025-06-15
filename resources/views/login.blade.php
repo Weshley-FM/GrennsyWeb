@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Greensy</title>
     <style>
+        /* CSS yang Anda berikan, tidak perlu perubahan di sini */
         * {
             margin: 0;
             padding: 0;
@@ -125,11 +126,24 @@
             color: #bdc3c7;
         }
 
+        /* Tambahan: styling untuk pesan error Laravel */
+        .form-group .invalid-feedback {
+            color: #e3342f; /* Merah untuk error */
+            font-size: 0.85rem;
+            margin-top: 5px;
+            display: block; /* Agar di baris baru */
+        }
+        .form-group input.is-invalid {
+            border-color: #e3342f; /* Border merah jika ada error */
+        }
+
+
         .password-toggle {
             position: absolute;
             right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
+            top: 50%; /* Sesuaikan ini jika label tinggi */
+            transform: translateY(-50%); /* Sesuaikan ini jika label tinggi */
+            /* Anda mungkin perlu menyesuaikan 'top' dan 'transform' agar ikon pas dengan input field, bukan label */
             background: none;
             border: none;
             color: #7f8c8d;
@@ -137,6 +151,12 @@
             font-size: 1.1rem;
             transition: color 0.3s ease;
         }
+        /* Tambahan CSS untuk posisi password-toggle yang lebih akurat */
+        .form-group.has-password-toggle .password-toggle {
+            top: calc(50% + 10px); /* Sesuaikan 10px ini dengan setengah tinggi input field + setengah tinggi label + margin label */
+            /* Ini akan membuat ikon lebih ke tengah input field */
+        }
+
 
         .password-toggle:hover {
             color: #2b6b46;
@@ -360,24 +380,54 @@
             <p>Masuk ke akun Anda</p>
         </div>
 
-        <form id="loginForm">
+        {{-- FORMULIR INI YANG PENTING UNTUK LARAVEL --}}
+        <form method="POST" action="{{ route('login') }}">
+            @csrf {{-- INI WAJIB UNTUK KEAMANAN LARAVEL --}}
+
             <div class="form-group">
                 <label for="email">Email atau Username</label>
-                <input type="text" id="email" name="email" placeholder="Masukkan email atau username" required>
+                {{-- Gunakan name="email" untuk input email --}}
+                {{-- Tambahkan class 'is-invalid' jika ada error validasi --}}
+                {{-- value="{{ old('email') }}" untuk mengisi kembali input jika validasi gagal --}}
+                <input type="text" id="email" name="email" placeholder="Masukkan email atau username"
+                       value="{{ old('email') }}" required autofocus
+                       class="@error('email') is-invalid @enderror">
+                
+                {{-- Tampilkan pesan error validasi untuk email --}}
+                @error('email')
+                    <span class="invalid-feedback">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
-            <div class="form-group" style="position: relative;">
+            <div class="form-group has-password-toggle"> {{-- Tambahkan class ini untuk styling password-toggle --}}
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Masukkan password" required>
+                {{-- Gunakan name="password" untuk input password --}}
+                <input type="password" id="password" name="password" placeholder="Masukkan password" required
+                       class="@error('password') is-invalid @enderror">
                 <button type="button" class="password-toggle" onclick="togglePassword()">👁</button>
+
+                {{-- Tampilkan pesan error validasi untuk password --}}
+                @error('password')
+                    <span class="invalid-feedback">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
 
             <div class="remember-forgot">
                 <label class="remember-me">
-                    <input type="checkbox" id="remember">
+                    {{-- name="remember" untuk fungsi "ingat saya" Laravel --}}
+                    <input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
                     <span>Ingat saya</span>
                 </label>
-                <a href="#" class="forgot-password">Lupa password?</a>
+                {{-- Pastikan rute 'password.request' ada jika Anda mengizinkan lupa password --}}
+                @if (Route::has('password.request'))
+                    <a href="{{ route('password.request') }}" class="forgot-password">Lupa password?</a>
+                @else
+                    <a href="#" class="forgot-password">Lupa password?</a> {{-- Fallback jika rute tidak ada --}}
+                @endif
             </div>
 
             <button type="submit" class="login-btn">Masuk</button>
@@ -387,13 +437,13 @@
             <span>atau</span>
         </div>
 
-        <div class="social-login">
+        <!-- <div class="social-login">
             <a href="#" class="social-btn">📱 Google</a>
             <a href="#" class="social-btn">📘 Facebook</a>
-        </div>
+        </div> -->
 
         <div class="signup-link">
-            Belum punya akun? <a href="#">Daftar sekarang</a>
+            Belum punya akun? <a href="{{ route('register') }}">Daftar sekarang</a>
         </div>
     </div>
 
@@ -410,37 +460,23 @@
                 toggleBtn.textContent = '👁';
             }
         }
-
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            
-            if (email && password) {
-                // Simulasi loading
-                const submitBtn = document.querySelector('.login-btn');
-                const originalText = submitBtn.textContent;
-                submitBtn.textContent = 'Masuk...';
-                submitBtn.disabled = true;
-                
-                setTimeout(() => {
-                    alert('Login berhasil! (Ini hanya demo)');
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                }, 1500);
-            }
-        });
-
-        // Animasi input focus
+        
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
+                this.closest('.form-group').style.transform = 'scale(1.02)'; // Gunakan closest untuk parent .form-group
             });
             
             input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
+                this.closest('.form-group').style.transform = 'scale(1)'; // Gunakan closest
             });
+        });
+
+        document.querySelector('.login-btn').addEventListener('click', function() {
+            const submitBtn = this;
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Masuk...';
+            submitBtn.disabled = true;
+
         });
     </script>
 </body>

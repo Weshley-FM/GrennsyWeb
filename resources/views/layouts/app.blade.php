@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Greensy Market | Dashboard</title>
+    <title>Greensy Market | Kitchen Ingredients</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-        /* CSS DARI LANDING.BLADE.PHP ASLI ANDA */
-        /* Pastikan semua CSS dari file Anda sebelumnya disalin ke sini */
+        /* CSS Umum Anda (dari kode yang Anda berikan sebelumnya) */
         * {
             margin: 0;
             padding: 0;
@@ -18,7 +17,7 @@
         }
 
         body {
-            background-color: #fdf9fd
+            background-color: #fdf9fd;
         }
 
         /* Navigation */
@@ -123,6 +122,37 @@
             align-items: center;
             justify-content: center;
         }
+        
+        /* CSS Tambahan untuk Halaman Autentikasi (Login/Register) */
+        @if(Route::is('login') || Route::is('register'))
+        body.auth-centered { /* Class ini akan ditambahkan ke body oleh script di bawah */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f2f8f4; /* Anda bisa menyesuaikan warna background khusus auth */
+        }
+        .auth-card {
+            width: 100%;
+            max-width: 400px;
+            background-color: #fff;
+            padding: 2.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .logo-container a {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2b6b46;
+            text-decoration: none;
+        }
+        @endif
+        /* End CSS Tambahan */
 
         /* Hero Section */
         .hero {
@@ -420,15 +450,15 @@
             .hero-title {
                 font-size: 2rem;
             }
-
+            
             .hero-subtitle {
                 font-size: 1.2rem;
             }
-
+            
             .search-box {
                 display: none;
             }
-
+            
             .feature {
                 padding: 20px;
             }
@@ -438,19 +468,19 @@
             .nav-links li {
                 margin-left: 15px;
             }
-
+            
             .hero {
                 height: 400px;
             }
-
+            
             .hero-content {
                 padding-left: 5%;
             }
-
+            
             .hero-title {
                 font-size: 1.8rem;
             }
-
+            
             .section-title {
                 font-size: 1.5rem;
             }
@@ -458,220 +488,103 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="nav-container">
-            <a class="navbar-brand fw-bold text-success" href="{{ route('landing') }}">GREENSY</a>
-            <ul class="nav-links">
-                <li><a href="{{ route('landing') }}">Home</a></li>
-                <li><a href="#shop">Shop</a></li>
-                <li><a href="#about">About</a></li>
-                {{-- Logika untuk menampilkan link yang berbeda berdasarkan status autentikasi --}}
-                @auth
-                    {{-- Tampilkan ini jika user sudah login --}}
-                    <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ route('profile.edit') }}">Profile</a></li>
-                    <li>
-                        <form method="POST" action="{{ route('logout') }}" style="display: inline;">
-                            @csrf
-                            <a href="{{ route('logout') }}"
-                               onclick="event.preventDefault(); this.closest('form').submit();">
-                                Logout
-                            </a>
-                        </form>
-                    </li>
-                    <li><a href="{{ route('cart.index') }}" class="cart-btn">🛒 <span class="cart-count">0</span></a></li>
-                @else
-                    {{-- Tampilkan ini jika user belum login --}}
-                    <li><a href="{{ route('login') }}" class="login-btn">👤 Login</a></li>
-                    <li><a href="{{ route('register') }}">Register</a></li>
-                    <li><a href="{{ route('login') }}" class="cart-btn">🛒 <span class="cart-count">0</span></a></li>
-                @endauth
-            </ul>
-            <div class="user-actions">
-                <div class="search-box">
-                    <input type="text" placeholder="Search...">
-                    <button type="submit">🔍</button>
+    {{-- BAGIAN HEADER (NAVBAR) --}}
+    @if (!Route::is('login') && !Route::is('register'))
+        <header>
+            <div class="nav-container">
+                <a class="navbar-brand fw-bold text-success" href="{{ route('landing') }}">GREENSY</a>
+                <ul class="nav-links">
+                    <li><a href="{{ route('landing') }}">Home</a></li>
+                    <li><a href="#shop">Shop</a></li>
+                    <li><a href="#about">About</a></li>
+                    @auth
+                        <li><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="nav-link" style="background:none; border:none; color:inherit; cursor:pointer; padding:0;">Logout</button>
+                            </form>
+                        </li>
+                    @else
+                        <li><a href="{{ route('login') }}">Login</a></li>
+                        <li><a href="{{ route('register') }}">Register</a></li>
+                    @endauth
+                </ul>
+                <div class="user-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="Search...">
+                        <button type="submit">🔍</button>
+                    </div>
+                    <div class="user-actions">
+                        @guest
+                            <a href="{{ route('login') }}" class="login-btn">👤 Login</a>
+                        @endguest
+                        <a href="{{ route('cart.index') }}" class="cart-btn">🛒 <span class="cart-count">0</span></a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
+    @endif
 
-    <section class="hero">
-        <img src="{{ asset('storage/images/herosection.png') }}" alt="herosection.png" class="hero-image">
-        <div class="hero-content">
-            <h1 class="hero-title">GREENSY MARKET</h1>
-            <p class="hero-subtitle">WE'LL DELIVER EVERYTHING YOU NEED</p>
-            <a href="#shop" class="shop-btn">SHOP ONLINE</a>
-        </div>
-    </section>
+    {{-- BAGIAN KONTEN SPESIFIK HALAMAN --}}
+    <main>
+        @yield('content') {{-- Ini adalah placeholder utama untuk konten dari view lain --}}
+    </main>
 
-    <section id="shop" class="shop-section">
-        <h2 class="section-title">Greensy Shop</h2>
-        <div class="products-grid">
-            @if(isset($products) && $products->count())
-                @foreach ($products as $product)
-                    <div class="product-card">
-                        <img src="{{ $product->img ? asset('storage/' . $product->img) : asset('images/default.jpg') }}"
-                             alt="{{ $product->name }}"
-                             class="product-image">
-                        <div class="product-info">
-                            <h3 class="product-name">{{ $product->name }}</h3>
-                            <p class="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
-                            <div class="add-to-cart">
-                                <button class="cart-btn-small">Add + </button>
-                                <div class="quantity">0 +</div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            @else
-                <p>Belum ada produk yang tersedia.</p>
-            @endif
-        </div>
-    </section>
-
-    <section id="about" class="about-section">
-        <h2 class="section-title">About Greensy Shop</h2>
-        <div class="features">
-            <div class="feature">
-                <div class="feature-icon">💰</div>
-                <h3 class="feature-title">Affordable Prices</h3>
-                <p class="feature-desc">We offer quality products and services at prices that won't break the bank. Enjoy great value without compromising on excellence.</p>
+    {{-- BAGIAN FOOTER --}}
+    @if (!Route::is('login') && !Route::is('register'))
+        <footer>
+            <div class="footer-container">
+                <div class="footer-column">
+                    <h3>Store</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Shop all</a></li>
+                        <li><a href="#">Shipping & Returns</a></li>
+                        <li><a href="#">Share Picky</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Address</h3>
+                    <p class="address">
+                        500 Terry Francine Street<br>
+                        San Francisco, CA 94158
+                    </p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>OPENING HOURS</h3>
+                    <p class="hours">
+                        Mon - Fri: 7am - 10pm<br>
+                        Saturday: 8am - 10pm<br>
+                        Sunday: 8am - 11pm
+                    </p>
+                </div>
             </div>
-
-            <div class="feature">
-                <div class="feature-icon">📦</div>
-                <h3 class="feature-title">Same Day Delivery</h3>
-                <p class="feature-desc">Order today, receive it today! Our same-day delivery service ensures speed and convenience for your needs.</p>
+            
+            <div class="copyright">
+                <p>© 2025 by Greensy. Powered and secured by Laravel</p>
+                <div class="social-links">
+                    <a href="#">✕</a>
+                    <a href="#">📷</a>
+                    <a href="#">📧</a>
+                    <a href="#">▶️</a>
+                </div>
             </div>
-
-            <div class="feature">
-                <div class="feature-icon">🛡️</div>
-                <h3 class="feature-title">Health & Safety Rules</h3>
-                <p class="feature-desc">Your safety is our top priority. We follow strict health and safety protocols in every step of our service and delivery process.</p>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Store</h3>
-                <ul class="footer-links">
-                    <li><a href="#">Shop all</a></li>
-                    <li><a href="#">Shipping & Returns</a></li>
-                    <li><a href="#">Share Picky</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h3>Address</h3>
-                <p class="address">
-                    500 Terry Francine Street<br>
-                    San Francisco, CA 94158
-                </p>
-            </div>
-
-            <div class="footer-column">
-                <h3>OPENING HOURS</h3>
-                <p class="hours">
-                    Mon - Fri: 7am - 10pm<br>
-                    Saturday: 8am - 10pm<br>
-                    Sunday: 8am - 11pm
-                </p>
-            </div>
-        </div>
-
-        <div class="copyright">
-            <p>© 2025 by Greensy. Powered and secured by Laravel</p>
-            <div class="social-links">
-                <a href="#">✕</a>
-                <a href="#">📷</a>
-                <a href="#">📧</a>
-                <a href="#">▶️</a>
-            </div>
-        </div>
-    </footer>
+        </footer>
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    {{-- Script untuk menambahkan class ke body jika di halaman auth (login/register) --}}
+    @if(Route::is('login') || Route::is('register'))
     <script>
-        /* JavaScript dari file Anda sebelumnya disalin ke sini */
-        // Add click animation to product cards
-        const productCards = document.querySelectorAll('.product-card');
-
-        productCards.forEach(card => {
-            card.addEventListener('click', function() {
-                // Add the 'clicked' class
-                this.classList.add('clicked');
-
-                // Remove the class after animation completes
-                setTimeout(() => {
-                    this.classList.remove('clicked');
-                }, 500);
-
-                // Update cart count (for demo purposes)
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) { // Pastikan elemen ada
-                    cartCount.textContent = parseInt(cartCount.textContent) + 1;
-                }
-
-                // Update quantity display in the product card
-                const quantityDisplay = this.querySelector('.quantity');
-                if (quantityDisplay) { // Pastikan elemen ada
-                    const currentQuantity = parseInt(quantityDisplay.textContent);
-                    quantityDisplay.textContent = (currentQuantity + 1) + ' +';
-                }
-            });
-        });
-
-        // Add to cart button functionality
-        const addToCartButtons = document.querySelectorAll('.cart-btn-small');
-
-        addToCartButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                // Prevent event bubbling to the card click
-                e.stopPropagation();
-
-                // Get the parent product card
-                const productCard = this.closest('.product-card');
-
-                // Trigger the click animation
-                if (productCard) { // Pastikan elemen ada
-                    productCard.classList.add('clicked');
-                    // Remove the class after animation completes
-                    setTimeout(() => {
-                        productCard.classList.remove('clicked');
-                    }, 500);
-                }
-
-                // Update cart count
-                const cartCount = document.querySelector('.cart-count');
-                if (cartCount) { // Pastikan elemen ada
-                    cartCount.textContent = parseInt(cartCount.textContent) + 1;
-                }
-
-                // Update quantity display in the product card
-                const quantityDisplay = productCard ? productCard.querySelector('.quantity') : null;
-                if (quantityDisplay) { // Pastikan elemen ada
-                    const currentQuantity = parseInt(quantityDisplay.textContent);
-                    quantityDisplay.textContent = (currentQuantity + 1) + ' +';
-                }
-            });
-        });
-
-        // Function for product filtering (if search input is used)
-        function filterProducts() {
-            const query = document.getElementById("searchInput").value.toLowerCase();
-            // Perhatikan: di sini saya menggunakan '.product' untuk class produk, tapi di HTML Anda menggunakan '.product-card'
-            // Sesuaikan selektor ini agar cocok dengan HTML Anda jika Anda menambahkan fungsionalitas pencarian.
-            const products = document.querySelectorAll(".product-card"); // Mengubah dari .product ke .product-card
-            products.forEach(product => {
-                const title = product.querySelector(".product-name").textContent.toLowerCase(); // Mengubah dari .card-title ke .product-name
-                product.style.display = title.includes(query) ? "" : "none";
-            });
-        }
+        document.body.classList.add('auth-centered');
     </script>
+    @endif
+
+    {{-- Placeholder untuk script tambahan dari view lain --}}
+    @stack('scripts')
 </body>
 </html>

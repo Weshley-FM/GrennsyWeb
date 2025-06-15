@@ -126,10 +126,10 @@
         /* Hero Section */
         .hero {
             position: relative;
-            height: 500px;
+            height: 575px;
             background-color: #f5f5f5;
             overflow: hidden;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         .hero-image {
@@ -460,12 +460,12 @@
     <!-- NAVBAR -->
     <header>
         <div class="nav-container">
-            <a class="navbar-brand fw-bold text-success" href="#">Greensy</a>
+            <a class="navbar-brand fw-bold text-success" href="#">GREENSY</a>
             <ul class="nav-links">
                 <li><a href="#">Home</a></li>
                 <li><a href="#shop">Shop</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#profile">Profile</a></li>
+                <li><a href="{{ route('login') }}">Profile</a></li>
             </ul>
         <div class="user-actions">
             <div class="search-box">
@@ -479,9 +479,9 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero section -->
     <section class="hero">
-        <img src="/api/placeholder/1200/500" alt="Fresh vegetables and fruits" class="hero-image">
+        <img src="{{ asset('storage/images/herosection.png') }}" alt="herosection.png" class="hero-image">
         <div class="hero-content">
             <h1 class="hero-title">GREENSY MARKET</h1>
             <p class="hero-subtitle">WE'LL DELIVER EVERYTHING YOU NEED</p>
@@ -491,165 +491,32 @@
 
     <!-- Shop Section -->
     <section id="shop" class="shop-section">
-        <h2 class="section-title">Greensy Shop</h2>
-        <div class="products-grid">
-            <!-- Product 1 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Sayur Bayam" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Sayur Bayam</h3>
-                    <p class="product-price">Rp.13.000,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
+    <h2 class="section-title">Greensy Shop</h2>
+    <div class="products-grid">
+        @if($products->count())
+            @foreach ($products as $product)
+                <div class="product-card">
+                    {{-- Pastikan jalur gambar di database sudah benar, misalnya 'products/image.jpg' --}}
+                    <img src="{{ $product->img ? asset('storage/' . $product->img) : asset('images/default.jpg') }}" 
+                         alt="{{ $product->name }}" 
+                         class="product-image">
+                    <div class="product-info">
+                        <h3 class="product-name">{{ $product->name }}</h3>
+                        {{-- Sesuaikan format harga jika 'size' tidak ada di tabel produk Anda --}}
+                        <p class="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</p> 
+                        <div class="add-to-cart">
+                            <button class="cart-btn-small">Add + </button>
+                            {{-- Quantity ini kemungkinan akan diupdate dengan JavaScript --}}
+                            <div class="quantity">0 +</div> 
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <!-- Product 2 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Sayur Kangkung" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Sayur Kangkung</h3>
-                    <p class="product-price">Rp.10.000,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 3 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Sayur Sawi" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Sayur Sawi</h3>
-                    <p class="product-price">Rp.9.000,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 4 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Sayur Brokoli" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Sayur Brokoli</h3>
-                    <p class="product-price">Rp.9.000,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 5 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Kentang" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Kentang</h3>
-                    <p class="product-price">Rp.4.500,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 6 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Tomat" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Tomat</h3>
-                    <p class="product-price">Rp.7.000,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 7 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Wortel" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Wortel</h3>
-                    <p class="product-price">Rp.5.000,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 8 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Terong Ungu" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Terong Ungu</h3>
-                    <p class="product-price">Rp.3.500,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 9 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Jahe" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Jahe</h3>
-                    <p class="product-price">Rp.3.500,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 10 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Kencur" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Kencur</h3>
-                    <p class="product-price">Rp.3.500,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 11 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Laos" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Laos</h3>
-                    <p class="product-price">Rp.3.500,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Product 12 -->
-            <div class="product-card">
-                <img src="/api/placeholder/250/180" alt="Kunyit" class="product-image">
-                <div class="product-info">
-                    <h3 class="product-name">Kunyit</h3>
-                    <p class="product-price">Rp.3.500,00</p>
-                    <div class="add-to-cart">
-                        <button class="cart-btn-small">Add + </button>
-                        <div class="quantity">0 +</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+            @endforeach
+        @else
+            <p>Belum ada produk yang tersedia.</p>
+        @endif
+    </div>
+</section>
 
     <!-- About Section -->
     <section id="about" class="about-section">
