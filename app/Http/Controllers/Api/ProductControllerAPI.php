@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\JsonResponse;
 
-class ProductController extends Controller
+class ProductControllerAPI extends Controller
 {
     /**
      * Display a listing of the resource.

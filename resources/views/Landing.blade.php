@@ -126,7 +126,7 @@
         /* Hero Section */
         .hero {
             position: relative;
-            height: 575px;
+            height: 600px;
             background-color: #f5f5f5;
             overflow: hidden;
             margin-bottom: 50px;
@@ -306,7 +306,7 @@
 
         /* About Section */
         .about-section {
-            padding: 60px 20px;
+            padding: 100px 20px;
             background-color: #f2f8f4;
         }
 
@@ -358,7 +358,7 @@
         .profile-section {
             background-color: #e5e5e5;
             border-radius: 10px;
-            padding: 40px;
+            padding: 70px;
             margin-bottom: 30px;
         }
 
@@ -532,15 +532,15 @@
             .hero-title {
                 font-size: 2rem;
             }
-            
+
             .hero-subtitle {
                 font-size: 1.2rem;
             }
-            
+
             .search-box {
                 display: none;
             }
-            
+
             .feature {
                 padding: 20px;
             }
@@ -550,19 +550,19 @@
             .nav-links li {
                 margin-left: 15px;
             }
-            
+
             .hero {
                 height: 400px;
             }
-            
+
             .hero-content {
                 padding-left: 5%;
             }
-            
+
             .hero-title {
                 font-size: 1.8rem;
             }
-            
+
             .section-title {
                 font-size: 1.5rem;
             }
@@ -580,16 +580,15 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#profil">Profil</a></li>
             </ul>
-        <div class="user-actions">
-            <div class="search-box">
-                <input type="text" placeholder="Search...">
-                <button type="submit">🔍</button>
-            </div>
             <div class="user-actions">
-                <a href="{{ route('login') }}" class="login-btn">👤 Login</a>
-                <a href="{{ route('cart.index') }}" class="cart-btn">🛒 <span class="cart-count">{{ session('cart') ? count(session('cart')) : 0 }}</span>
-                </a>
-
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search..." oninput="filterProducts()">
+                    <button type="submit">🔍</button>
+                </div>
+                <div class="user-actions">
+                    <a href="{{ route('login') }}" class="login-btn">👤 Login</a>
+                    <a href="{{ route('cart.index') }}" class="cart-btn">🛒 <span class="cart-count">{{ session('cart') ? count(session('cart')) : 0 }}</span></a>
+                </div>
             </div>
         </div>
     </header>
@@ -606,52 +605,44 @@
 
     <!-- Shop Section -->
     <section id="shop" class="shop-section">
-    <h2 class="section-title">Greensy Shop</h2>
-    <div class="products-grid">
-        @if($products->count())
-            @foreach ($products as $product)
-                <div class="product-card">
-                    {{-- Pastikan jalur gambar di database sudah benar, misalnya 'products/image.jpg' --}}
-                    <img src="{{ $product->img ? asset('storage/' . $product->img) : asset('images/default.jpg') }}" 
-                         alt="{{ $product->name }}" 
-                         class="product-image">
-                    <div class="product-info">
-                        <h3 class="product-name">{{ $product->name }}</h3>
-                        {{-- Sesuaikan format harga jika 'size' tidak ada di tabel produk Anda --}}
-                        <p class="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</p> 
-                        <div class="add-to-cart">
-                            <button class="cart-btn-small">Add + </button>
-                            {{-- Quantity ini kemungkinan akan diupdate dengan JavaScript --}}
-                            <div class="quantity">0 +</div> 
+        <h2 class="section-title">Greensy Shop</h2>
+        <div class="products-grid">
+            @if($products->count())
+                @foreach ($products as $product)
+                    <div class="product-card product" data-name="{{ strtolower($product->name) }}">
+                        <img src="{{ $product->img ? asset('storage/' . $product->img) : asset('images/default.jpg') }}"
+                             alt="{{ $product->name }}"
+                             class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">{{ $product->name }}</h3>
+                            <p class="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}</p>
+                            <div class="add-to-cart">
+                                <button class="cart-btn-small">Add + </button>
+                                <div class="quantity">0 +</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @endforeach
-        @else
-            <p>Belum ada produk yang tersedia.</p>
-        @endif
-    </div>
-</section>
+                @endforeach
+            @else
+                <p>Belum ada produk yang tersedia.</p>
+            @endif
+        </div>
+    </section>
 
     <!-- About Section -->
     <section id="about" class="about-section">
         <h2 class="section-title">About Greensy Shop</h2>
         <div class="features">
-            <!-- Feature 1 -->
             <div class="feature">
                 <div class="feature-icon">💰</div>
                 <h3 class="feature-title">Affordable Prices</h3>
                 <p class="feature-desc">We offer quality products and services at prices that won't break the bank. Enjoy great value without compromising on excellence.</p>
             </div>
-            
-            <!-- Feature 2 -->
             <div class="feature">
                 <div class="feature-icon">📦</div>
                 <h3 class="feature-title">Same Day Delivery</h3>
                 <p class="feature-desc">Order today, receive it today! Our same-day delivery service ensures speed and convenience for your needs.</p>
             </div>
-            
-            <!-- Feature 3 -->
             <div class="feature">
                 <div class="feature-icon">🛡️</div>
                 <h3 class="feature-title">Health & Safety Rules</h3>
@@ -662,7 +653,6 @@
 
     <!-- Main Content -->
     <div class="container">
-        <!-- Profile Section -->
         <div class="profile-section">
             <div class="profile-header">
                 <h2>Profil</h2>
@@ -687,7 +677,6 @@
             </div>
         </div>
 
-        <!-- Transaction History -->
         <div class="transactions-section">
             <h3 class="section-title">Riwayat Transaksi</h3>
             <table class="transaction-list">
@@ -701,41 +690,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#ORD-2025-5721</td>
-                        <td>12 Mei 2025</td>
-                        <td>Monstera Deliciosa, Fiddle Leaf Fig</td>
-                        <td>Rp450.000</td>
-                        <td><span class="status completed">Selesai</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ORD-2025-5682</td>
-                        <td>5 Mei 2025</td>
-                        <td>Snake Plant, Soil Mix Premium</td>
-                        <td>Rp275.000</td>
-                        <td><span class="status completed">Selesai</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ORD-2025-5590</td>
-                        <td>27 April 2025</td>
-                        <td>Ceramic Pot Medium, Plant Food</td>
-                        <td>Rp320.000</td>
-                        <td><span class="status processed">Diproses</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ORD-2025-5523</td>
-                        <td>20 April 2025</td>
-                        <td>Aloe Vera, Succulent Set</td>
-                        <td>Rp185.000</td>
-                        <td><span class="status canceled">Dibatalkan</span></td>
-                    </tr>
-                    <tr>
-                        <td>#ORD-2025-5431</td>
-                        <td>8 April 2025</td>
-                        <td>Peace Lily, Gardening Tools</td>
-                        <td>Rp395.000</td>
-                        <td><span class="status completed">Selesai</span></td>
-                    </tr>
+                    <tr><td>#ORD-2025-5721</td><td>12 Mei 2025</td><td>Monstera Deliciosa, Fiddle Leaf Fig</td><td>Rp450.000</td><td><span class="status completed">Selesai</span></td></tr>
+                    <tr><td>#ORD-2025-5682</td><td>5 Mei 2025</td><td>Snake Plant, Soil Mix Premium</td><td>Rp275.000</td><td><span class="status completed">Selesai</span></td></tr>
+                    <tr><td>#ORD-2025-5590</td><td>27 April 2025</td><td>Ceramic Pot Medium, Plant Food</td><td>Rp320.000</td><td><span class="status processed">Diproses</span></td></tr>
+                    <tr><td>#ORD-2025-5523</td><td>20 April 2025</td><td>Aloe Vera, Succulent Set</td><td>Rp185.000</td><td><span class="status canceled">Dibatalkan</span></td></tr>
+                    <tr><td>#ORD-2025-5431</td><td>8 April 2025</td><td>Peace Lily, Gardening Tools</td><td>Rp395.000</td><td><span class="status completed">Selesai</span></td></tr>
                 </tbody>
             </table>
         </div>
@@ -744,7 +703,6 @@
     <!-- Footer -->
     <footer>
         <div class="footer-container">
-            <!-- Store Links -->
             <div class="footer-column">
                 <h3>Store</h3>
                 <ul class="footer-links">
@@ -754,27 +712,15 @@
                     <li><a href="#">FAQ</a></li>
                 </ul>
             </div>
-            
-            <!-- Address -->
             <div class="footer-column">
                 <h3>Address</h3>
-                <p class="address">
-                    500 Terry Francine Street<br>
-                    San Francisco, CA 94158
-                </p>
+                <p class="address">500 Terry Francine Street<br>San Francisco, CA 94158</p>
             </div>
-            
-            <!-- Opening Hours -->
             <div class="footer-column">
                 <h3>OPENING HOURS</h3>
-                <p class="hours">
-                    Mon - Fri: 7am - 10pm<br>
-                    Saturday: 8am - 10pm<br>
-                    Sunday: 8am - 11pm
-                </p>
+                <p class="hours">Mon - Fri: 7am - 10pm<br>Saturday: 8am - 10pm<br>Sunday: 8am - 11pm</p>
             </div>
         </div>
-        
         <div class="copyright">
             <p>© 2025 by Greensy. Powered and secured by Laravel</p>
         </div>
@@ -783,69 +729,49 @@
     <script>
         // Add click animation to product cards
         const productCards = document.querySelectorAll('.product-card');
-        
+
         productCards.forEach(card => {
-            card.addEventListener('click', function() {
-                // Add the 'clicked' class
+            card.addEventListener('click', function () {
                 this.classList.add('clicked');
-                
-                // Remove the class after animation completes
-                setTimeout(() => {
-                    this.classList.remove('clicked');
-                }, 500);
-                
-                // Update cart count (for demo purposes)
+                setTimeout(() => this.classList.remove('clicked'), 500);
                 const cartCount = document.querySelector('.cart-count');
                 cartCount.textContent = parseInt(cartCount.textContent) + 1;
-                
-                // Update quantity display in the product card
                 const quantityDisplay = this.querySelector('.quantity');
                 const currentQuantity = parseInt(quantityDisplay.textContent);
                 quantityDisplay.textContent = (currentQuantity + 1) + ' +';
             });
         });
-        
+
         // Add to cart button functionality
         const addToCartButtons = document.querySelectorAll('.cart-btn-small');
-        
         addToCartButtons.forEach(button => {
-            button.addEventListener('click', function(e) {
-                // Prevent event bubbling to the card click
+            button.addEventListener('click', function (e) {
                 e.stopPropagation();
-                
-                // Get the parent product card
                 const productCard = this.closest('.product-card');
-                
-                // Trigger the click animation
                 productCard.classList.add('clicked');
-                
-                // Remove the class after animation completes
-                setTimeout(() => {
-                    productCard.classList.remove('clicked');
-                }, 500);
-                
-                // Update cart count
+                setTimeout(() => productCard.classList.remove('clicked'), 500);
                 const cartCount = document.querySelector('.cart-count');
                 cartCount.textContent = parseInt(cartCount.textContent) + 1;
-                
-                // Update quantity display in the product card
                 const quantityDisplay = productCard.querySelector('.quantity');
                 const currentQuantity = parseInt(quantityDisplay.textContent);
                 quantityDisplay.textContent = (currentQuantity + 1) + ' +';
             });
         });
+
+        // Search function
+        function filterProducts() {
+            const query = document.getElementById("searchInput").value.toLowerCase();
+            const products = document.querySelectorAll(".product-card");
+            products.forEach(product => {
+                const name = product.getAttribute('data-name');
+                if (name.includes(query)) {
+                    product.style.display = "";
+                } else {
+                    product.style.display = "none";
+                }
+            });
+        }
     </script>
-<!-- JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function filterProducts() {
-        const query = document.getElementById("searchInput").value.toLowerCase();
-        const products = document.querySelectorAll(".product");
-        products.forEach(product => {
-            const title = product.querySelector(".card-title").textContent.toLowerCase();
-            product.style.display = title.includes(query) ? "" : "none";
-        });
-    }
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
