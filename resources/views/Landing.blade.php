@@ -348,6 +348,119 @@
             line-height: 1.6;
         }
 
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .profile-section {
+            background-color: #e5e5e5;
+            border-radius: 10px;
+            padding: 40px;
+            margin-bottom: 30px;
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        .profile-details {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .profile-field {
+            margin-bottom: 15px;
+        }
+
+        .profile-field label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #444;
+        }
+
+        .profile-field input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        /* Transaction History */
+        .transactions-section {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: #2c6e49;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .transaction-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transaction-list th {
+            text-align: left;
+            padding: 15px 10px;
+            background-color: #f0f7f4;
+            border-bottom: 2px solid #2c6e49;
+            color: #2c6e49;
+        }
+
+        .transaction-list td {
+            padding: 15px 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .transaction-list tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .status {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .completed {
+            background-color: #d1f2d9;
+            color: #0e8c3a;
+        }
+
+        .processed {
+            background-color: #fff5cc;
+            color: #d4a017;
+        }
+
+        .canceled {
+            background-color: #ffe5e5;
+            color: #e53935;
+        }
+
         /* Footer */
         footer {
             background-color: #1d4731;
@@ -465,7 +578,7 @@
                 <li><a href="#">Home</a></li>
                 <li><a href="#shop">Shop</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="{{ route('login') }}">Profile</a></li>
+                <li><a href="#profil">Profil</a></li>
             </ul>
         <div class="user-actions">
             <div class="search-box">
@@ -474,7 +587,9 @@
             </div>
             <div class="user-actions">
                 <a href="{{ route('login') }}" class="login-btn">👤 Login</a>
-                <a href="{{ route('login') }}" class="cart-btn">🛒 <span class="cart-count">0</span></a>
+                <a href="{{ route('cart.index') }}" class="cart-btn">🛒 <span class="cart-count">{{ session('cart') ? count(session('cart')) : 0 }}</span>
+                </a>
+
             </div>
         </div>
     </header>
@@ -544,6 +659,87 @@
             </div>
         </div>
     </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Profile Section -->
+        <div class="profile-section">
+            <div class="profile-header">
+                <h2>Profil</h2>
+            </div>
+            <div class="profile-details">
+                <div class="profile-field">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" value="" readonly>
+                </div>
+                <div class="profile-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" value="" readonly>
+                </div>
+                <div class="profile-field">
+                    <label for="phone">Phone</label>
+                    <input type="tel" id="phone" value="" readonly>
+                </div>
+                <div class="profile-field">
+                    <label for="address">Alamat</label>
+                    <input type="text" id="address" value="" readonly>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transaction History -->
+        <div class="transactions-section">
+            <h3 class="section-title">Riwayat Transaksi</h3>
+            <table class="transaction-list">
+                <thead>
+                    <tr>
+                        <th>ID Pesanan</th>
+                        <th>Tanggal</th>
+                        <th>Produk</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>#ORD-2025-5721</td>
+                        <td>12 Mei 2025</td>
+                        <td>Monstera Deliciosa, Fiddle Leaf Fig</td>
+                        <td>Rp450.000</td>
+                        <td><span class="status completed">Selesai</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-2025-5682</td>
+                        <td>5 Mei 2025</td>
+                        <td>Snake Plant, Soil Mix Premium</td>
+                        <td>Rp275.000</td>
+                        <td><span class="status completed">Selesai</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-2025-5590</td>
+                        <td>27 April 2025</td>
+                        <td>Ceramic Pot Medium, Plant Food</td>
+                        <td>Rp320.000</td>
+                        <td><span class="status processed">Diproses</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-2025-5523</td>
+                        <td>20 April 2025</td>
+                        <td>Aloe Vera, Succulent Set</td>
+                        <td>Rp185.000</td>
+                        <td><span class="status canceled">Dibatalkan</span></td>
+                    </tr>
+                    <tr>
+                        <td>#ORD-2025-5431</td>
+                        <td>8 April 2025</td>
+                        <td>Peace Lily, Gardening Tools</td>
+                        <td>Rp395.000</td>
+                        <td><span class="status completed">Selesai</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer>

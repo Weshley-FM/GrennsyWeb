@@ -1,49 +1,41 @@
 <?php
 
+// File: app/Http/Controllers/CartController.php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CartItem;
-use App\Models\Product;
 
 class CartController extends Controller
 {
     public function index()
     {
-        // Asumsi data cartItems diambil dari database
-        $cartItems = CartItem::with('product')->where('user_id', auth()->id())->get();
-
-        // Mengarahkan ke resources/views/transaction/cart.blade.php
-        return view('transaction.cart', compact('cartItems')); // <--- UBAH INI!
+        // Ambil data cart dari session atau database
+        $cartItems = session()->get('cart', []);
+        $cartCount = count($cartItems);
+        
+        // Kembalikan view ke transaction/cart.blade.php
+        return view('transaction.cart', compact('cartItems', 'cartCount'));
     }
-
+    
     public function update(Request $request)
     {
-        foreach ($request->quantities as $itemId => $qty) {
-            $item = CartItem::find($itemId);
-            if ($item && $item->user_id === auth()->id()) {
-                $item->quantity = max(1, intval($qty));
-                $item->save();
-            }
-        }
-
-        return redirect()->route('cart.index')->with('success', 'Cart updated successfully!');
+        // Logic untuk update cart
+        // Implementasi sesuai kebutuhan
+        
+        return redirect()->route('cart.index')->with('success', 'Cart updated successfully');
     }
-
+    
     public function remove($id)
     {
-        $item = CartItem::find($id);
-        if ($item && $item->user_id === auth()->id()) {
-            $item->delete();
+        // Logic untuk menghapus item dari cart
+        $cart = session()->get('cart', []);
+        
+        if (isset($cart[$id])) {
+            unset($cart[$id]);
+            session()->put('cart', $cart);
         }
-
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
-    }
-
-    public function checkout()
-    {
-        // Placeholder: show checkout form or confirmation
-        return view('checkout');
+        
+        return redirect()->route('cart.index')->with('success', 'Item removed from cart');
     }
 }
-

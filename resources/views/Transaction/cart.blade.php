@@ -10,29 +10,28 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <style>
-        /* General styles from both codes, prioritizing Greensy's general setup */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Menggunakan font dari Greensy Market */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #fdf9fd; /* From Greensy code */
+            background-color: #fdf9fd;
             min-height: 100vh;
             display: flex;
-            flex-direction: column; /* For footer to stick to bottom */
+            flex-direction: column;
         }
 
-        /* Navigation (Navbar) styles from Greensy code */
+        /* Navigation */
         header {
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             padding: 15px 0;
             position: sticky;
             top: 0;
-            z-index: 1000; /* Increased z-index to ensure it's above other elements */
+            z-index: 1000;
         }
 
         .nav-container {
@@ -54,8 +53,8 @@
         .nav-links {
             display: flex;
             list-style: none;
-            margin: 0; /* Added margin: 0 to override default ul margin */
-            padding: 0; /* Added padding: 0 to override default ul padding */
+            margin: 0;
+            padding: 0;
         }
 
         .nav-links li {
@@ -113,9 +112,10 @@
             cursor: pointer;
             margin-left: 15px;
             position: relative;
-            color: #333; /* Ensure text color is visible */
-            text-decoration: none; /* Ensure it looks like a link */
+            color: #333;
+            text-decoration: none;
         }
+
         .login-btn:hover, .cart-btn:hover {
             color: #2b6b46;
         }
@@ -137,13 +137,13 @@
 
         /* Main content area */
         .main-content {
-            flex: 1; /* Allow main content to grow and push footer down */
+            flex: 1;
             padding: 20px;
         }
 
-        .container { /* This is the cart specific container */
+        .container {
             max-width: 800px;
-            margin: 20px auto; /* Adjust margin to fit with navbar/footer */
+            margin: 20px auto;
             background: white;
             border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.1);
@@ -194,19 +194,19 @@
         }
 
         .header h1 {
-            font-size: 2.5rem; /* Menyesuaikan dengan .hero-title */
-            font-weight: 700; /* Menyesuaikan dengan .hero-title */
-            margin-bottom: 15px; /* Menyesuaikan dengan .hero-title */
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
             position: relative;
             z-index: 1;
         }
 
         .header p {
-            font-size: 1.5rem; /* Menyesuaikan dengan .hero-subtitle */
+            font-size: 1.5rem;
             opacity: 0.9;
             position: relative;
             z-index: 1;
-            line-height: 1.4; /* Menyesuaikan dengan .hero-subtitle */
+            line-height: 1.4;
         }
 
         .content {
@@ -230,24 +230,71 @@
         }
 
         .section-title {
-            text-align: left; /* Biarkan default untuk section title di cart */
-            font-size: 2rem; /* Menyesuaikan dengan .section-title di Greensy Market */
+            text-align: left;
+            font-size: 2rem;
             color: #2b6b46;
-            margin-bottom: 40px; /* Menyesuaikan dengan .section-title di Greensy Market */
+            margin-bottom: 40px;
             position: relative;
-            padding-bottom: 10px; /* Tambahan untuk border-bottom */
-            border-bottom: 3px solid #2b6b46; /* Menyesuaikan dengan .section-title di Greensy Market */
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2b6b46;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -3px; /* Menyesuaikan dengan .section-title::after di Greensy Market */
-            left: 0; /* Pindah ke kiri */
-            width: 80px; /* Menyesuaikan dengan .section-title::after di Greensy Market */
+            bottom: -3px;
+            left: 0;
+            width: 80px;
             height: 3px;
             background-color: #2b6b46;
-            border-radius: 2px; /* Tambahan border-radius */
+            border-radius: 2px;
+        }
+
+        /* Empty cart styles */
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-cart-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-cart h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .empty-cart p {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .shop-now-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background-color: #2b6b46;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            border: 2px solid #2b6b46;
+        }
+
+        .shop-now-btn:hover {
+            background-color: #1e4d31;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(43, 107, 70, 0.3);
         }
 
         .cart-item {
@@ -286,16 +333,16 @@
         }
 
         .item-name {
-            font-size: 16px; /* Menyesuaikan dengan .product-name di Greensy Market */
-            font-weight: 600; /* Menyesuaikan dengan .product-name di Greensy Market */
-            margin-bottom: 8px; /* Menyesuaikan dengan .product-name di Greensy Market */
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
             color: #333;
         }
 
         .item-price {
             color: #2b6b46;
-            font-weight: 700; /* Menyesuaikan dengan .product-price di Greensy Market */
-            font-size: 1em; /* Mempertahankan ukuran agar tidak terlalu besar */
+            font-weight: 700;
+            font-size: 1em;
         }
 
         .item-quantity {
@@ -332,6 +379,27 @@
             text-align: center;
         }
 
+        .remove-item {
+            background: #dc3545;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1em;
+            margin-left: 15px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .remove-item:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
         .total-section {
             background: linear-gradient(135deg, #f8f9fa, #e9ecef);
             padding: 25px;
@@ -344,11 +412,11 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
-            font-size: 1.1em; /* Biarkan sedikit lebih besar dari teks biasa */
+            font-size: 1.1em;
         }
 
         .total-final {
-            font-size: 1.5em; /* Biarkan sedikit lebih besar dari teks biasa */
+            font-size: 1.5em;
             font-weight: bold;
             color: #2b6b46;
             border-top: 2px solid #2b6b46;
@@ -365,7 +433,7 @@
             margin-bottom: 8px;
             font-weight: bold;
             color: #333;
-            font-size: 1em; /* Menyesuaikan dengan ukuran teks umum */
+            font-size: 1em;
         }
 
         .form-input {
@@ -373,7 +441,7 @@
             padding: 15px;
             border: 2px solid #ddd;
             border-radius: 12px;
-            font-size: 1em; /* Ukuran font input */
+            font-size: 1em;
             transition: all 0.3s ease;
             background: linear-gradient(45deg, #fafafa, #ffffff);
         }
@@ -425,7 +493,7 @@
         }
 
         .payment-icon {
-            font-size: 2em; /* Biarkan ikon sedikit lebih besar */
+            font-size: 2em;
             margin-right: 15px;
             transition: transform 0.3s ease;
         }
@@ -437,12 +505,12 @@
         .payment-info h3 {
             margin-bottom: 5px;
             color: #333;
-            font-size: 1.1em; /* Ukuran judul pembayaran */
+            font-size: 1.1em;
         }
 
         .payment-info p {
             color: #666;
-            font-size: 0.9em; /* Ukuran deskripsi pembayaran */
+            font-size: 0.9em;
         }
 
         .checkout-btn {
@@ -451,7 +519,7 @@
             border: none;
             padding: 20px 40px;
             border-radius: 50px;
-            font-size: 1.3em; /* Ukuran tombol checkout */
+            font-size: 1.3em;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
@@ -485,12 +553,27 @@
             transform: translateY(-1px);
         }
 
-        /* Footer styles from Greensy code */
+        .checkout-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .checkout-section {
+            display: none;
+        }
+
+        .checkout-section.show {
+            display: block;
+        }
+
+        /* Footer */
         footer {
             background-color: #1d4731;
             color: #fff;
             padding: 60px 20px 30px;
-            margin-top: auto; /* Push footer to the bottom */
+            margin-top: auto;
         }
 
         .footer-container {
@@ -509,7 +592,7 @@
 
         .footer-links {
             list-style: none;
-            padding: 0; /* Override default ul padding */
+            padding: 0;
         }
 
         .footer-links li {
@@ -553,7 +636,7 @@
             color: #fff;
         }
 
-        /* Responsive adjustments from Greensy code, adapted for this layout */
+        /* Responsive */
         @media (max-width: 768px) {
             .nav-container {
                 flex-direction: column;
@@ -588,13 +671,13 @@
             }
 
             .header h1 {
-                font-size: 2rem; /* Menyesuaikan untuk mobile */
+                font-size: 2rem;
             }
             .header p {
-                font-size: 1.2rem; /* Menyesuaikan untuk mobile */
+                font-size: 1.2rem;
             }
             .section-title {
-                font-size: 1.5rem; /* Menyesuaikan untuk mobile */
+                font-size: 1.5rem;
             }
 
             .container {
@@ -644,10 +727,10 @@
 
         @media (max-width: 576px) {
             .nav-links li {
-                margin-left: 0; /* Remove horizontal margin */
+                margin-left: 0;
             }
             .header h1 {
-                font-size: 1.8rem; /* Menyesuaikan untuk mobile sangat kecil */
+                font-size: 1.8rem;
             }
         }
     </style>
@@ -655,19 +738,22 @@
 <body>
     <header>
         <div class="nav-container">
-            <a class="navbar-brand fw-bold text-success" href="#">GREENSY</a>
+            <a class="navbar-brand fw-bold text-success" href="/">GREENSY</a>
             <ul class="nav-links">
-                <li><a href="#">Home</a></li>
-                <li><a href="#shop">Shop</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#">Profile</a></li> </ul>
-        <div class="user-actions">
-            <div class="search-box">
-                <input type="text" placeholder="Search...">
-                <button type="submit">🔍</button>
-            </div>
+                <li><a href="/">Home</a></li>
+                <li><a href="/#shop">Shop</a></li>
+                <li><a href="/#about">About</a></li>
+                <li><a href="#">Profile</a></li>
+            </ul>
             <div class="user-actions">
-                <a href="#" class="login-btn">👤 Login</a> <a href="#" class="cart-btn">🛒 <span class="cart-count">0</span></a>
+                <div class="search-box">
+                    <input type="text" placeholder="Search...">
+                    <button type="submit">🔍</button>
+                </div>
+                <div class="user-actions">
+                    <a href="{{ route('login') }}" class="login-btn">👤 Login</a>
+                    <a href="#" class="cart-btn">🛒 <span class="cart-count" id="cartCount">0</span></a>
+                </div>
             </div>
         </div>
     </header>
@@ -683,62 +769,25 @@
                 <div class="section">
                     <h2 class="section-title">🛒 Keranjang Belanja</h2>
 
-                    <div class="cart-items-list">
-                        <div class="cart-item" data-product-id="1" data-price="8000">
-                            <img src="https://images.unsplash.com/photo-1590779033100-9f60a05a013d?w=200&h=200&fit=crop" alt="Bayam" class="item-image">
-                            <div class="item-details">
-                                <div class="item-name">Bayam Segar</div>
-                                <div class="item-price">Rp 8,000 / ikat</div>
-                            </div>
-                            <div class="item-quantity">
-                                <button class="quantity-btn" onclick="changeQuantity(this, -1)">-</button>
-                                <span class="quantity-display">2</span>
-                                <button class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
-                            </div>
-                        </div>
+                    <!-- Empty Cart State -->
+                    <div class="empty-cart" id="emptyCart">
+                        <div class="empty-cart-icon">🛒</div>
+                        <h3>Keranjang Belanja Kosong</h3>
+                        <p>Belum ada produk yang ditambahkan ke keranjang.<br>
+                        Silakan kembali ke halaman utama untuk berbelanja.</p>
+                        <a href="/" class="shop-now-btn">Mulai Belanja</a>
+                    </div>
 
-                        <div class="cart-item" data-product-id="2" data-price="12000">
-                            <img src="https://images.unsplash.com/photo-1582515073490-39981397c445?w=200&h=200&fit=crop" alt="Wortel" class="item-image">
-                            <div class="item-details">
-                                <div class="item-name">Wortel Organik</div>
-                                <div class="item-price">Rp 12,000 / kg</div>
-                            </div>
-                            <div class="item-quantity">
-                                <button class="quantity-btn" onclick="changeQuantity(this, -1)">-</button>
-                                <span class="quantity-display">1</span>
-                                <button class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
-                            </div>
-                        </div>
-                        
-                        <div class="cart-item" data-product-id="3" data-price="15000">
-                            <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?w=200&h=200&fit=crop" alt="Brokoli" class="item-image">
-                            <div class="item-details">
-                                <div class="item-name">Brokoli Hijau</div>
-                                <div class="item-price">Rp 15,000 / buah</div>
-                            </div>
-                            <div class="item-quantity">
-                                <button class="quantity-btn" onclick="changeQuantity(this, -1)">-</button>
-                                <span class="quantity-display">1</span>
-                                <button class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
-                            </div>
-                        </div>
+                    <!-- Cart Items List (Hidden initially) -->
+                    <div class="cart-items-list" id="cartItemsList" style="display: none;">
+                        <!-- Cart items will be populated here by JavaScript -->
+                    </div>
 
-                        <div class="cart-item" data-product-id="4" data-price="10000">
-                            <img src="https://images.unsplash.com/photo-1586016158394-1b51aa7e6eb8?w=200&h=200&fit=crop" alt="Tomat" class="item-image">
-                            <div class="item-details">
-                                <div class="item-name">Tomat Merah</div>
-                                <div class="item-price">Rp 10,000 / kg</div>
-                            </div>
-                            <div class="item-quantity">
-                                <button class="quantity-btn" onclick="changeQuantity(this, -1)">-</button>
-                                <span class="quantity-display">2</span>
-                                <button class="quantity-btn" onclick="changeQuantity(this, 1)">+</button>
-                            </div>
-                        </div>
-                    </div> <div class="total-section">
+                    <!-- Total Section (Hidden initially) -->
+                    <div class="total-section" id="totalSection" style="display: none;">
                         <div class="total-row">
                             <span>Subtotal:</span>
-                            <span id="subtotal">Rp 71,000</span>
+                            <span id="subtotal">Rp 0</span>
                         </div>
                         <div class="total-row">
                             <span>Ongkos Kirim:</span>
@@ -746,90 +795,93 @@
                         </div>
                         <div class="total-row total-final">
                             <span>Total:</span>
-                            <span id="total">Rp 81,000</span>
+                            <span id="total">Rp 10,000</span>
                         </div>
                     </div>
                 </div>
 
-                <form id="checkoutForm">
-                    @csrf <div class="section">
-                        <h2 class="section-title">📍 Alamat Pengiriman</h2>
-                        
-                        <div class="form-group">
-                            <label for="fullName" class="form-label">Nama Lengkap</label>
-                            <input type="text" id="fullName" name="full_name" class="form-input" placeholder="Masukkan nama lengkap" required>
+                <!-- Checkout Form Section (Hidden initially) -->
+                <div class="checkout-section" id="checkoutSection">
+                    <form id="checkoutForm">
+                        <div class="section">
+                            <h2 class="section-title">📍 Alamat Pengiriman</h2>
+                            
+                            <div class="form-group">
+                                <label for="fullName" class="form-label">Nama Lengkap</label>
+                                <input type="text" id="fullName" name="full_name" class="form-input" placeholder="Masukkan nama lengkap" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone" class="form-label">Nomor Telepon</label>
+                                <input type="tel" id="phone" name="phone_number" class="form-input" placeholder="08xxxxxxxxxx" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="address" class="form-label">Alamat Lengkap</label>
+                                <textarea id="address" name="address" class="form-input form-textarea" placeholder="Jalan, No. Rumah, RT/RW, Kelurahan..." required></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="city" class="form-label">Kota</label>
+                                <input type="text" id="city" name="city" class="form-input" placeholder="Nama kota" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="postalCode" class="form-label">Kode Pos</label>
+                                <input type="text" id="postalCode" name="postal_code" class="form-input" placeholder="12345" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="notes" class="form-label">Catatan Pengiriman (Opsional)</label>
+                                <textarea id="notes" name="notes" class="form-input" placeholder="Catatan khusus untuk kurir..."></textarea>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="phone" class="form-label">Nomor Telepon</label>
-                            <input type="tel" id="phone" name="phone_number" class="form-input" placeholder="08xxxxxxxxxx" required>
+                        <div class="section">
+                            <h2 class="section-title">💳 Metode Pembayaran</h2>
+                            
+                            <div class="payment-options">
+                                <label class="payment-option">
+                                    <input type="radio" name="payment_method" value="cod" class="payment-radio" checked>
+                                    <div class="payment-card">
+                                        <div class="payment-icon">💵</div>
+                                        <div class="payment-info">
+                                            <h3>Bayar di Tempat</h3>
+                                            <p>Cash on Delivery (COD)</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="payment_method" value="transfer" class="payment-radio">
+                                    <div class="payment-card">
+                                        <div class="payment-icon">🏦</div>
+                                        <div class="payment-info">
+                                            <h3>Transfer Bank</h3>
+                                            <p>BCA, BNI, Mandiri</p>
+                                        </div>
+                                    </div>
+                                </label>
+
+                                <label class="payment-option">
+                                    <input type="radio" name="payment_method" value="ewallet" class="payment-radio">
+                                    <div class="payment-card">
+                                        <div class="payment-icon">📱</div>
+                                        <div class="payment-info">
+                                            <h3>E-Wallet</h3>
+                                            <p>GoPay, OVO, DANA</p>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="address" class="form-label">Alamat Lengkap</label>
-                            <textarea id="address" name="address" class="form-input form-textarea" placeholder="Jalan, No. Rumah, RT/RW, Kelurahan..." required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="city" class="form-label">Kota</label>
-                            <input type="text" id="city" name="city" class="form-input" placeholder="Nama kota" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="postalCode" class="form-label">Kode Pos</label>
-                            <input type="text" id="postalCode" name="postal_code" class="form-input" placeholder="12345" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="notes" class="form-label">Catatan Pengiriman (Opsional)</label>
-                            <textarea id="notes" name="notes" class="form-input" placeholder="Catatan khusus untuk kurir..."></textarea>
-                        </div>
+                        <button type="submit" class="checkout-btn" id="checkoutBtn" disabled>
+                            🚚 Pesan Sekarang - Rp 0
+                        </button>
                     </form>
                 </div>
-
-                <div class="section">
-                    <h2 class="section-title">💳 Metode Pembayaran</h2>
-                    
-                    <div class="payment-options">
-                        <label class="payment-option">
-                            <input type="radio" name="payment_method" value="cod" class="payment-radio" checked>
-                            <div class="payment-card">
-                                <div class="payment-icon">💵</div>
-                                <div class="payment-info">
-                                    <h3>Bayar di Tempat</h3>
-                                    <p>Cash on Delivery (COD)</p>
-                                </div>
-                            </div>
-                        </label>
-
-                        <label class="payment-option">
-                            <input type="radio" name="payment_method" value="transfer" class="payment-radio">
-                            <div class="payment-card">
-                                <div class="payment-icon">🏦</div>
-                                <div class="payment-info">
-                                    <h3>Transfer Bank</h3>
-                                    <p>BCA, BNI, Mandiri</p>
-                                </div>
-                            </div>
-                        </label>
-
-                        <label class="payment-option">
-                            <input type="radio" name="payment_method" value="ewallet" class="payment-radio">
-                            <div class="payment-card">
-                                <div class="payment-icon">📱</div>
-                                <div class="payment-info">
-                                    <h3>E-Wallet</h3>
-                                    <p>GoPay, OVO, DANA</p>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-
-                <button type="submit" class="checkout-btn">
-                    🚚 Pesan Sekarang - Rp 81,000
-                </button>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -875,113 +927,57 @@
     </footer>
 
     <script>
-        function changeQuantity(button, change) {
-            const quantityDisplay = button.parentNode.querySelector('.quantity-display');
-            let currentQuantity = parseInt(quantityDisplay.textContent);
-            let newQuantity = currentQuantity + change;
-            
-            if (newQuantity < 1) newQuantity = 1;
-            
-            quantityDisplay.textContent = newQuantity;
-            updateTotal();
-            
-            // Add animation effect
-            quantityDisplay.style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                quantityDisplay.style.transform = 'scale(1)';
-            }, 150);
+        // Cart management
+        let cart = [];
+
+        // Load cart from localStorage on page load
+        function loadCart() {
+            const savedCart = localStorage.getItem('greensyCart');
+            if (savedCart) {
+                cart = JSON.parse(savedCart);
+                displayCart();
+                updateCartCount();
+            }
         }
 
-        function updateTotal() {
-            // Dapatkan semua item keranjang yang terlihat di halaman
-            const cartItemsElements = document.querySelectorAll('.cart-item');
-            let subtotal = 0;
-            
-            cartItemsElements.forEach(itemElement => {
-                const price = parseFloat(itemElement.dataset.price); // Ambil harga dari data-price
-                const quantity = parseInt(itemElement.querySelector('.quantity-display').textContent);
-                subtotal += price * quantity;
-            });
-            
-            const shipping = 10000; // Asumsi ongkos kirim tetap
-            const total = subtotal + shipping;
-            
-            document.getElementById('subtotal').textContent = `Rp ${subtotal.toLocaleString('id-ID')}`;
-            document.getElementById('total').textContent = `Rp ${total.toLocaleString('id-ID')}`;
-            document.querySelector('.checkout-btn').innerHTML = `🚚 Pesan Sekarang - Rp ${total.toLocaleString('id-ID')}`;
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('greensyCart', JSON.stringify(cart));
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            updateTotal(); // Hitung total awal saat halaman dimuat
+        // Update cart count in navbar
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
 
-            const checkoutForm = document.getElementById('checkoutForm');
-            const checkoutBtn = document.querySelector('.checkout-btn');
+        // Display cart items
+        function displayCart() {
+            const emptyCart = document.getElementById('emptyCart');
+            const cartItemsList = document.getElementById('cartItemsList');
+            const totalSection = document.getElementById('totalSection');
+            const checkoutSection = document.getElementById('checkoutSection');
+            const checkoutBtn = document.getElementById('checkoutBtn');
 
-            checkoutForm.addEventListener('submit', async function(event) {
-                event.preventDefault(); // Mencegah submit form default
-
-                // Nonaktifkan tombol dan ubah teks
-                checkoutBtn.innerHTML = '⏳ Memproses Pesanan...';
+            if (cart.length === 0) {
+                emptyCart.style.display = 'block';
+                cartItemsList.style.display = 'none';
+                totalSection.style.display = 'none';
+                checkoutSection.classList.remove('show');
                 checkoutBtn.disabled = true;
+                return;
+            }
 
-                // Kumpulkan data dari form
-                const formData = new FormData(checkoutForm);
-                const data = Object.fromEntries(formData.entries());
+            emptyCart.style.display = 'none';
+            cartItemsList.style.display = 'block';
+            totalSection.style.display = 'block';
+            checkoutSection.classList.add('show');
+            checkoutBtn.disabled = false;
 
-                // Kumpulkan data item keranjang dari DOM
-                const cartItemsElements = document.querySelectorAll('.cart-item');
-                const cartItemsData = [];
-                cartItemsElements.forEach(itemElement => {
-                    cartItemsData.push({
-                        id: parseInt(itemElement.dataset.productId),
-                        name: itemElement.querySelector('.item-name').textContent,
-                        quantity: parseInt(itemElement.querySelector('.quantity-display').textContent),
-                        price: parseFloat(itemElement.dataset.price)
-                    });
-                });
-                data.cart_items = cartItemsData; // Tambahkan item keranjang ke data yang akan dikirim
+            // Clear existing items
+            cartItemsList.innerHTML = '';
 
-                try {
-                    const response = await fetch('/checkout', { // Ganti '/checkout' dengan route Anda jika berbeda
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify(data)
-                    });
-
-                    const result = await response.json();
-
-                    if (response.ok) {
-                        alert(`🎉 ${result.message}`);
-                        // Redirect ke halaman sukses atau tampilkan pesan sukses
-                        if (result.redirect_url) {
-                            window.location.href = result.redirect_url;
-                        } else {
-                            checkoutBtn.innerHTML = '✅ Pesanan Berhasil';
-                        }
-                    } else {
-                        // Tangani error dari server (validasi, dll.)
-                        let errorMessage = 'Terjadi kesalahan. Mohon coba lagi.';
-                        if (result.errors) {
-                            errorMessage = Object.values(result.errors).flat().join('\n');
-                        } else if (result.message) {
-                            errorMessage = result.message;
-                        }
-                        alert(`⚠️ ${errorMessage}`);
-                        checkoutBtn.innerHTML = '🚚 Pesan Sekarang - Rp ' + document.getElementById('total').textContent.replace('Rp ', '');
-                        checkoutBtn.disabled = false;
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('Terjadi masalah jaringan atau server. Mohon coba lagi.');
-                    checkoutBtn.innerHTML = '🚚 Pesan Sekarang - Rp ' + document.getElementById('total').textContent.replace('Rp ', '');
-                    checkoutBtn.disabled = false;
-                }
-            });
-        });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            // Add each cart item
+            cart.forEach((item, index) => {
+                const cartItemDiv = document.createElement('div');
