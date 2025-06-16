@@ -11,16 +11,16 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CheckoutController;
 
-// Rute Login
-Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/login', [AuthController::class, 'login']);
+// // Rute Login
+// Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+// Route::post('/login', [AuthController::class, 'login']);
 
-// Rute Register
-Route::get('/register', [RegisterController::class, 'register'])->name('register');
-Route::post('/register', [RegisterController::class, 'registerPost']); // Jika Anda punya method registerPost
+// // Rute Register
+// Route::get('/register', [RegisterController::class, 'register'])->name('register');
+// Route::post('/register', [RegisterController::class, 'registerPost']); // Jika Anda punya method registerPost
 
-// Rute Logout
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+// // Rute Logout
+// Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rute Landing Page
 Route::get('/', [LandingController::class, 'index'])->name('landing');

@@ -8,5 +8,4 @@ use App\Http\Controllers\Api\ProductController;
 
 // Route::apiResource('/landing', LandingControllerAPI::class);
 
-Route::apiResource('users', UserController::class);
-Route::apiResource('/products', ProductController::class);
+
